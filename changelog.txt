@@ -1,0 +1,153 @@
+way later goals:
+online play
+
+later goals:
+editor/battle modes
+players editable, mob info addable to file
+"undo" support (at least for single square click)
+
+v0.7 goals:
+tracking players and creatures
+"rulers" to display the coordinate numbers(?)
+zoomable display fixes
+fix the vertical problem
+
+
+v0.6.4 (7/6/2012 19:33) CURRENT RELEASE
+    -Added in the option of choosing your resolution in pixels per square
+        Currently with 2 pixel margin marking inbetween squares; this may be adjustable later
+        -using the load/create new worked fine with different resolutions
+            -too low will cause problems; board has to fill up the window vertically at least
+        
+
+        -However, re-sizing it via misc. menu is buggy; it cuts off the bottom of square
+            -workaround: Set square size to a lower value (20 pix) then your value
+            -note: errors were found around 30pix range, along with horizontal shifting at most ranges
+
+
+v0.6.3 (7/1/2012 1:38)
+    -quick patch, fixed players and mob panes so they can be scrolled.
+
+
+v0.6.2 (6/21/2012 1:50)
+
+Changed "Hide Square" (see below)
+Hide Square no longer effect - in Misc menu, there is "Hide Room" option.
+Every "Hide Square" placed will be given a room number
+    Hide Room acts just like placing terrain; it gives a number with a box (for readability)
+    when all rooms are hidden, clicking on a hidden room will unhide all squares of that room number.
+        when they are not, it will act normally (painting the grid).
+
+
+
+v0.6 (6/20/2012 04:25)
+Features:
+    added Hide Square effect (filled gray); it hides most of the tooltip of a square
+    and is painted on top of everything else when on a square; effect is that
+    the square's contents are hidden until the effect has been negated via red x.
+        -to be used by DM for hiding rooms, chests/traps, etc.
+        Possible bug for old map saves: pre-v0.6 map files containing effects will have the wrong effects
+            -any other files should be fine.
+
+    redone import of player and mob pictures and file import;
+        -config and list files in bestiary, players, and maps folders obsolete.
+            these files will be deleted if they exist, for the next version or so, to clean up folders
+        -due to the above, you can now add player images, mob images, and maps
+            directly to their respective folders in %appdata%\DungeonDisplay,
+            and the game will notice them upon re-launch
+        
+
+    redone file load menu
+        additionally, "delete" and "rename" file buttons are in the load dialog AND functional
+        -double clicking a filename will now open it;
+        -selecting a file then hitting "delete" is the same as hitting the delete button
+        -same as above with rename and F2 (supposedly; this is unverified)
+        
+
+    resizable (and maximizable) window support
+        - menu stays at 200px * height
+        - map fills in rest of window
+
+    -map save/load problems fixed.
+        -added backward compatible code for 0.5 maps
+        -maps no longer should invert their dimensions upon save and load.
+
+
+v0.5.4 (not an actual release)
+    IS DOLAN
+    map load/save problems fixed (almost)
+
+v0.5.3 Release (6/18/2012 21:05)
+    fixed load dialog staying open after successful load. Now it closes.
+        EDIT: ACTUALLY NOT
+
+
+v0.5.2 Release (6/18/2012 21:05)
+    fixed save/load?
+
+v0.5 Release (6/18/2012 19:34)
+
+Features:
+
+    SAVING AND LOADING WORKS
+        Can now load from initial file dialog (instead of new file)
+        Saving has its own tab in the window; it may take a while when with huge maps (>200x>200)
+    
+    if a terrain, effect, or object is selected, there now displays
+            an image overlay showing so ("ants" around the edges")
+
+    Updates the player and mob groups when new ones are added
+
+    Players are...fixed? They are improved. Creatures have been added in. Tracking will be soon.
+
+    ctrl+mouse movement now fills in squares. also, ctrl+shift+mouse movement works the same way.
+
+    mouseListener moved to individual DisplayPanelCells, instead of the entire GridContainer
+        -for users, this means clicking between boxes will not fill them in.
+
+    fixed memory issues 
+        -3 instances of ImageMenu now hold all terrain, object, and other sprites
+            -on repaint(), each cell just takes those images, instead of storing the image in each instance
+
+    New file can now handle maps greater than 30 by 30; above 500x500 not recommended; message adjusted
+        -related: previously, rows were determined by column field, and vice versa. Fixed.
+
+EDIT:
+    Bugs: switches grid width with height (and vice-versa) upon loading a save.
+
+v0.3
+Features:
+    First opens the FileDialog,
+        -in the new File tab, can set number of rows and columns in a new file.
+        -Problem is: takes a while to make bigger grids
+        -no save still
+
+
+v0.2
+Features:
+    -first time open now creates directories at %appdata%\DungeonDisplay for a windows machine.
+
+    -players are now createable; only works with 80x80 gif; anything else could potentially behave badly
+        -players can also be placed (albeit multiple times)
+
+    -implemented SHIFT CLICK SUPPORT for placing rectangles of terrain & objects
+
+    -scrollable window; NSEW buttons removed
+
+    -classes separated into multiple files for better structure and organization
+
+    -debug window now appends, but still not scrollable
+
+Known bugs:
+    -adding a player with the same name as an already existing player overwrites the image file (probably)
+
+
+
+v0.1
+Features:
+-implemented editable interface on the DisplayPanel
+    -fits to screen
+    -Objects, effects, terrain editable and the former two are removable
+
+-exit button functional
+
