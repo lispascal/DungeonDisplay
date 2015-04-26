@@ -24,7 +24,7 @@ public class FileDialog extends javax.swing.JFrame {
     java.io.File[] fileList;
     
     //DungeonDisplay parentDD;
-    public FileDialog(String windowname) { // , DungeonDisplay parent
+    public FileDialog(DungeonDisplay parent, String windowname) { // , DungeonDisplay parent
         super(windowname);
         //parentDD = parent;
         name = windowname;

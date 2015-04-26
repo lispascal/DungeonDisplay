@@ -17,12 +17,13 @@ public class DisplayPanel extends JXFPanel
     DungeonDisplay parentDD;
     int fullsquaresize = 80;
     GridContainer gridContainer;
+    JScrollPane gridScrollPane;
     public DisplayPanel(int resolution, int colnum, int rownum, DungeonDisplay parent)
     {
         gridContainer = new GridContainer(colnum, rownum, this);
         parentDD = parent;
         setLayout(new GridLayout(1,1));
-        JScrollPane gridScrollPane = new JScrollPane(gridContainer);
+        gridScrollPane = new JScrollPane(gridContainer);
         add(gridScrollPane);
         fullsquaresize = resolution;
 

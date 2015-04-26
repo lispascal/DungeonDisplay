@@ -4,6 +4,10 @@
  */
 package dungeondisplay;
 
+import java.awt.GridLayout;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 /**
  *
  * @author plis
@@ -48,8 +52,8 @@ public class MiscMenu extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
-        jSlider1 = new javax.swing.JSlider();
+        resizeSpinner = new javax.swing.JSpinner();
+        resizeSlider = new javax.swing.JSlider();
 
         setPreferredSize(new java.awt.Dimension(200, 800));
 
@@ -79,23 +83,23 @@ public class MiscMenu extends javax.swing.JPanel {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel2.setLabelFor(jSlider1);
+        jLabel2.setLabelFor(resizeSlider);
         jLabel2.setText("Resize Tiles");
 
         jLabel3.setText("(Very Buggy)");
 
-        jSpinner1.setValue(80);
-        jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+        resizeSpinner.setValue(80);
+        resizeSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSpinner1StateChanged(evt);
+                resizeSpinnerStateChanged(evt);
             }
         });
 
-        jSlider1.setMaximum(160);
-        jSlider1.setMinimum(10);
-        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+        resizeSlider.setMaximum(160);
+        resizeSlider.setMinimum(10);
+        resizeSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSlider1StateChanged(evt);
+                resizeSliderStateChanged(evt);
             }
         });
 
@@ -111,11 +115,11 @@ public class MiscMenu extends javax.swing.JPanel {
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(resizeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(resizeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
@@ -127,9 +131,9 @@ public class MiscMenu extends javax.swing.JPanel {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3))
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(resizeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
-                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(resizeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -151,7 +155,7 @@ public class MiscMenu extends javax.swing.JPanel {
                             .addComponent(jLabel1)
                             .addComponent(roomNumberSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,24 +217,29 @@ public class MiscMenu extends javax.swing.JPanel {
         
     }//GEN-LAST:event_hideRoomButtonActionPerformed
 
-    private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
+    private void resizeSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_resizeSpinnerStateChanged
         // TODO add your handling code here:
+        int value = (Integer) resizeSpinner.getValue();
+        if(value < resizeSlider.getMinimum() || value > resizeSlider.getMaximum())
+        {
+            value = max(value, resizeSlider.getMinimum());
+            value = min(value, resizeSlider.getMaximum());
+            resizeSpinner.setValue(value);
+        }
+            
+        resizeSlider.setValue(value);
         
-        jSlider1.setValue((Integer)jSpinner1.getValue());
-        
-        parentDD.displayPanel.fullsquaresize = (Integer)jSpinner1.getValue()+2;
-        
-        parentDD.displayPanel.gridContainer.revalidate();
-        parentDD.displayPanel.gridContainer.repaint();
+        parentDD.displayPanel.fullsquaresize = value;
         parentDD.displayPanel.revalidate();
         parentDD.displayPanel.repaint();
-    }//GEN-LAST:event_jSpinner1StateChanged
-
-    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
-        // TODO add your handling code here:
-        jSpinner1.setValue((Integer)jSlider1.getValue());
         
-    }//GEN-LAST:event_jSlider1StateChanged
+    }//GEN-LAST:event_resizeSpinnerStateChanged
+
+    private void resizeSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_resizeSliderStateChanged
+        // TODO add your handling code here:
+        resizeSpinner.setValue((Integer)resizeSlider.getValue());
+        
+    }//GEN-LAST:event_resizeSliderStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton HideAllRoomsButton;
@@ -240,8 +249,8 @@ public class MiscMenu extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JSlider jSlider1;
-    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSlider resizeSlider;
+    private javax.swing.JSpinner resizeSpinner;
     private javax.swing.JSpinner roomNumberSpinner;
     // End of variables declaration//GEN-END:variables
 }

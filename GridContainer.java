@@ -160,10 +160,10 @@ public class GridContainer extends JXFPanel
 //            row[i].revalidate();
 //            row[i].repaint();
 //        }
-        for (DisplayPanelCell[] grid1 : grid) {
-            for (DisplayPanelCell grid11 : grid1) {
-                grid11.revalidate();
-                grid11.repaint();
+        for (DisplayPanelCell[] gridRow : grid) {
+            for (DisplayPanelCell gridCell : gridRow) {
+                gridCell.revalidate();
+                gridCell.repaint();
             }
         }
         revalidate();

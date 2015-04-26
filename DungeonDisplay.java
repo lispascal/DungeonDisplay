@@ -36,8 +36,7 @@ public class DungeonDisplay extends JFrame implements ActionListener {
     public static void main(String[] args) {
         MakeDDFiles();
         
-
-        FileDialog wind = new FileDialog("DungeonDisplay " + currentVersion);
+        FileDialog wind = new FileDialog(window, "DungeonDisplay " + currentVersion);
 
         
         //InitiativeFrame test = new InitiativeFrame();
@@ -92,7 +91,7 @@ public class DungeonDisplay extends JFrame implements ActionListener {
     Dimension menusize;
     Dimension scrnsize;
     
-    static DisplayPanel displayPanel;
+    DisplayPanel displayPanel;
     
     
     public DungeonDisplay(String windowname,int colnum, int rownum, int resolution)
@@ -305,7 +304,6 @@ public class DungeonDisplay extends JFrame implements ActionListener {
     static public void loadGrid(String loadName,int resolution)
     {
         String loadLocation = appdata + "\\DungeonDisplay\\Maps\\" + loadName;
-
         
         try
         {
@@ -326,6 +324,7 @@ public class DungeonDisplay extends JFrame implements ActionListener {
                 window = new DungeonDisplay(loadName + " - DungeonDisplay " + currentVersion,width,height,resolution);
                 window.setVisible(true);
                 window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                DisplayPanel disPanel = window.displayPanel;
                 for(int i=0;i<height;i++) //loads saveType 2
                 {
                     for(int j=0;j<width;j++)
@@ -336,26 +335,26 @@ public class DungeonDisplay extends JFrame implements ActionListener {
                             if(lineInt == -3)
                             {
                                 //add player instance, the method of adding which contains changePlayer
-                                displayPanel.gridContainer.grid[j][i].changePlayer(in.readLine());
+                                disPanel.gridContainer.grid[j][i].changePlayer(in.readLine());
                             }
                             else if(lineInt == -2)
                             {
                                 String mob = in.readLine();
                                 int mobNumber = Integer.parseInt(in.readLine());
                                 //add mob instance, which contains
-                                displayPanel.gridContainer.grid[j][i].changeMob(mob,j,i,mobNumber);
+                                disPanel.gridContainer.grid[j][i].changeMob(mob,j,i,mobNumber);
                             }
                             else if(lineInt == -1)
                             {
                                 int effect = Integer.parseInt(in.readLine());
                                 //add mob instance, which contains
-                                displayPanel.gridContainer.cellGrid.get(j).get(i).changeEffect(effect);
+                                disPanel.gridContainer.cellGrid.get(j).get(i).changeEffect(effect);
                             }
                             lineInt = Integer.parseInt(in.readLine());
                         }
 
-                        displayPanel.gridContainer.cellGrid.get(j).get(i).changeObject(lineInt);
-                        displayPanel.gridContainer.cellGrid.get(j).get(i).changeTerrain(Integer.parseInt(in.readLine()));
+                        disPanel.gridContainer.cellGrid.get(j).get(i).changeObject(lineInt);
+                        disPanel.gridContainer.cellGrid.get(j).get(i).changeTerrain(Integer.parseInt(in.readLine()));
                     }
                 }
                 in.close();
@@ -367,6 +366,7 @@ public class DungeonDisplay extends JFrame implements ActionListener {
                 int width = Integer.parseInt(in.readLine());
                 int height = Integer.parseInt(in.readLine());
                 window = new DungeonDisplay(loadName + " - DungeonDisplay " + currentVersion,width,height,resolution);
+                DisplayPanel disPanel = window.displayPanel;
                 window.setVisible(true);
                 window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 for(int i=0;i<height;i++) //loads saveType 2
@@ -379,26 +379,26 @@ public class DungeonDisplay extends JFrame implements ActionListener {
                             if(lineInt == -3)
                             {
                                 //add player instance, the method of adding which contains changePlayer
-                                displayPanel.gridContainer.grid[j][i].changePlayer(in.readLine());
+                                disPanel.gridContainer.grid[j][i].changePlayer(in.readLine());
                             }
                             else if(lineInt == -2)
                             {
                                 String mob = in.readLine();
                                 int mobNumber = Integer.parseInt(in.readLine());
                                 //add mob instance, which contains
-                                displayPanel.gridContainer.grid[j][i].changeMob(mob,j,i,mobNumber);
+                                disPanel.gridContainer.grid[j][i].changeMob(mob,j,i,mobNumber);
                             }
                             else if(lineInt == -1)
                             {
                                 int effect = Integer.parseInt(in.readLine());
                                 //add mob instance, which contains
-                                displayPanel.gridContainer.cellGrid.get(j).get(i).changeEffect(effect);
+                                disPanel.gridContainer.cellGrid.get(j).get(i).changeEffect(effect);
                             }
                             lineInt = Integer.parseInt(in.readLine());
                         }
 
-                        displayPanel.gridContainer.cellGrid.get(j).get(i).changeObject(lineInt);
-                        displayPanel.gridContainer.cellGrid.get(j).get(i).changeTerrain(Integer.parseInt(in.readLine()));
+                        disPanel.gridContainer.cellGrid.get(j).get(i).changeObject(lineInt);
+                        disPanel.gridContainer.cellGrid.get(j).get(i).changeTerrain(Integer.parseInt(in.readLine()));
                     }
                 }
             
@@ -410,6 +410,7 @@ public class DungeonDisplay extends JFrame implements ActionListener {
                 int width = Integer.parseInt(in.readLine());
                 int height = Integer.parseInt(in.readLine());
                 window = new DungeonDisplay(loadName + " - DungeonDisplay " + currentVersion,width,height,resolution);
+                DisplayPanel disPanel = window.displayPanel;
                 window.setVisible(true);
                 window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 
@@ -425,27 +426,27 @@ public class DungeonDisplay extends JFrame implements ActionListener {
                             if(lineInt == -3)
                             {
                                 //add player instance, the method of adding which contains changePlayer
-                                displayPanel.gridContainer.grid[j][i].changePlayer(in.readLine());
+                                disPanel.gridContainer.grid[j][i].changePlayer(in.readLine());
                             }
                             else if(lineInt == -2)
                             {
                                 String mob = in.readLine();
                                 int mobNumber = Integer.parseInt(in.readLine());
                                 //add mob instance, which contains
-                                displayPanel.gridContainer.grid[j][i].changeMob(mob,j,i,mobNumber);
+                                disPanel.gridContainer.grid[j][i].changeMob(mob,j,i,mobNumber);
                             }
                             else if(lineInt == -1)
                             {
                                 int effect = Integer.parseInt(in.readLine());
                                 //add mob instance, which contains
-                                displayPanel.gridContainer.cellGrid.get(j).get(i).changeEffect(effect);
+                                disPanel.gridContainer.cellGrid.get(j).get(i).changeEffect(effect);
                             }
                             lineInt = Integer.parseInt(in.readLine());
                         }
 
-                        displayPanel.gridContainer.grid[j][i].changeRoom(lineInt);
-                        displayPanel.gridContainer.cellGrid.get(j).get(i).changeObject(Integer.parseInt(in.readLine()));
-                        displayPanel.gridContainer.cellGrid.get(j).get(i).changeTerrain(Integer.parseInt(in.readLine()));
+                        disPanel.gridContainer.grid[j][i].changeRoom(lineInt);
+                        disPanel.gridContainer.cellGrid.get(j).get(i).changeObject(Integer.parseInt(in.readLine()));
+                        disPanel.gridContainer.cellGrid.get(j).get(i).changeTerrain(Integer.parseInt(in.readLine()));
                         
                     }
                 }
