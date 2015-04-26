@@ -23,16 +23,13 @@ public class DisplayPanelCell extends JXFPanel
 
     
     int x,y; // the x and y coordinates of the cell
-    int terrain = 8;
-    int object = 0;
-    int effect = 0;
     int roomNum = 0;
     GridContainer parentGrid;
     
     String player = "";
     String mob = "";
     int mobnumber = 0;
-    
+    private final Cell cell;
     
     BufferedImage mobImage;
     BufferedImage playerImage;
@@ -42,7 +39,7 @@ public class DisplayPanelCell extends JXFPanel
         parentGrid = parent;
         x=xVal;
         y=yVal;
-        
+        cell = parent.cellGrid.get(xVal).get(yVal);
         setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         setPreferredSize(new Dimension(parentGrid.parentDisplayPanel.fullsquaresize-2,parentGrid.parentDisplayPanel.fullsquaresize-2));
         setBackground(Color.LIGHT_GRAY);
@@ -50,13 +47,13 @@ public class DisplayPanelCell extends JXFPanel
 
     }
 
-       public void resetToolTipText()
+    public void resetToolTipText()
     {
-        String text = parentGrid.parentDisplayPanel.parentDD.terrainArray.imageList[terrain];
-        if(object != 0)
-            text = parentGrid.parentDisplayPanel.parentDD.objectArray.imageList[object] + ", " + text ;
-        if(effect != 0)
-            text = parentGrid.parentDisplayPanel.parentDD.effectArray.imageList[effect] + ", " + text ;
+        String text = parentGrid.parentDisplayPanel.parentDD.terrainArray.imageList[cell.terrain];
+        if(cell.object != 0)
+            text = parentGrid.parentDisplayPanel.parentDD.objectArray.imageList[cell.object] + ", " + text ;
+        if(cell.effect != 0)
+            text = parentGrid.parentDisplayPanel.parentDD.effectArray.imageList[cell.effect] + ", " + text ;
         if(!player.equals(""))
             text = player + ", " + text;
         if(!mob.equals(""))
@@ -74,25 +71,6 @@ public class DisplayPanelCell extends JXFPanel
         setToolTipText(text);
     }
 
-
-    void changeTerrain(int newTerrain)
-    {
-        terrain = newTerrain;
-            resetToolTipText();
-    }
-    
-    void changeObject(int newObject)
-    {
-        object = newObject;
-            resetToolTipText();
-    }
-
-    
-    void changeEffect(int newEffect)
-    {
-        effect = newEffect;
-            resetToolTipText();
-    }
 
     void changePlayer(String PlayerName)
     {
@@ -117,15 +95,12 @@ public class DisplayPanelCell extends JXFPanel
         {
 //            moveMob();
             mob = "";
-            
-            
         }
         else
         {
         //    addnewPlayer();
             mob = mobName;
             mobImage = utility.getImage(new File(DungeonDisplay.appdata + "\\DungeonDisplay\\Bestiary\\Images\\" + mobName + ".gif"));
-
         }
         resetToolTipText();
     }
@@ -145,32 +120,31 @@ public class DisplayPanelCell extends JXFPanel
     {
         DungeonDisplay parent = parentGrid.parentDisplayPanel.parentDD;
         DisplayPanel parentDP = parentGrid.parentDisplayPanel;
-        setPreferredSize(new Dimension(parentDP.fullsquaresize-2,parentDP.fullsquaresize-2));
+        int ss = parentDP.fullsquaresize;
+        setPreferredSize(new Dimension(ss-2, ss-2));
         revalidate();
         super.paintComponent(g);
-        if (true)
-        {
-            g.drawImage(parent.terrainArray.panels[terrain].image,0,0,
-                    parentDP.fullsquaresize-2, parentDP.fullsquaresize-2, null);
-        }
         
-        if (effect != 0)
+        g.drawImage(parent.terrainArray.panels[cell.terrain].image,0,0,
+                ss-2, ss-2, null);
+        
+        if (cell.effect != 0)
         {
-            g.drawImage(parent.effectArray.panels[effect].image,0,0,
-                    parentDP.fullsquaresize-2,parentDP.fullsquaresize-2,null);
+            g.drawImage(parent.effectArray.panels[cell.effect].image,0,0,
+                    ss-2, ss-2, null);
         }            
-        if (object != 0)
+        if (cell.object != 0)
         {
-            g.drawImage(parent.objectArray.panels[object].image,0,0,
-                    parentDP.fullsquaresize-2,parentDP.fullsquaresize-2,null);
+            g.drawImage(parent.objectArray.panels[cell.object].image,0,0,
+                    ss-2, ss-2, null);
         }
         if(!player.equals(""))
         {
-            g.drawImage(playerImage,0,0,parentDP.fullsquaresize-2,parentDP.fullsquaresize-2,null);
+            g.drawImage(playerImage,0,0, ss-2, ss-2,null);
         }
         if(!mob.equals(""))
         {
-            g.drawImage(mobImage,0,0,parentDP.fullsquaresize-2,parentDP.fullsquaresize-2,null);
+            g.drawImage(mobImage,0,0, ss-2, ss-2, null);
         }
         if (roomNum > 0 && !ImagePane.hide) // if "Hide Square" is on a square, and things 
         {                                   //          aren't hidden, show room numbers
@@ -182,7 +156,7 @@ public class DisplayPanelCell extends JXFPanel
         else if (roomNum > 0 && ImagePane.hide) // if "Hide Square" is on a square, and things 
         {                                   //          aren't hidden, show room numbers
             g.setColor(new Color(167,162,175));
-            g.fillRect(0,0,parentDP.fullsquaresize,parentDP.fullsquaresize);
+            g.fillRect(0,0, ss, parentDP.fullsquaresize);
         }
         
     }
@@ -216,57 +190,16 @@ public class DisplayPanelCell extends JXFPanel
                 }
                 else if(e.isShiftDown() == true && e.isControlDown()==false && oldCoords != null)
                 {   //if shift is down, fill in the whole area from oldCoords to the clicked location
-                    int i = oldCoords[0];
-                    int j= oldCoords[1];
-
-                    int iincrease,jincrease; // dummy variables to make it less loops
-
-                    if(oldCoords[0]<=x)
-                        iincrease = 1;
-                    else 
-                        iincrease = -1;
-
-                    if(oldCoords[1]<=y)
-                        jincrease = 1;
-                    else
-                        jincrease = -1;
-
-                    while(i!=x+iincrease)
-                    {
-                        while(j!=y+jincrease)
-                        {
-
-                            if(ImagePane.writeType==0)
-                                parentGrid.grid[i][j].changeTerrain(Integer.parseInt(ImagePane.writeName));
-                            if(ImagePane.writeType==1)
-                                parentGrid.grid[i][j].changeObject(Integer.parseInt(ImagePane.writeName));
-                            if(ImagePane.writeType==2)
-                                parentGrid.grid[i][j].changeEffect(Integer.parseInt(ImagePane.writeName));
-                            if((oldCoords[1]!=j || oldCoords[0]!=i) && ImagePane.writeType==4)
-                                parentGrid.grid[i][j].changeMob(ImagePane.writeName,i,j,1);    
-                            if(ImagePane.writeType==5)
-                                parentGrid.grid[i][j].changeRoom();
-
-                            parentGrid.grid[i][j].repaint();
-
-                            j=j+jincrease;
-
-
-                        }
-
-                        i=i+iincrease;
-                        j= oldCoords[1];
-                    }
-
+                    parentGrid.fillArea(oldCoords[0], oldCoords[1], x, y);
                 }
                 else // default action; occurs if no shift is held and no group is inside the visible place
                 {
                     if(ImagePane.writeType==0)
-                        changeTerrain(Integer.parseInt(ImagePane.writeName));
+                        cell.changeTerrain(Integer.parseInt(ImagePane.writeName));
                     if(ImagePane.writeType==1)
-                        changeObject(Integer.parseInt(ImagePane.writeName));
+                        cell.changeObject(Integer.parseInt(ImagePane.writeName));
                     if(ImagePane.writeType==2)
-                        changeEffect(Integer.parseInt(ImagePane.writeName));
+                        cell.changeEffect(Integer.parseInt(ImagePane.writeName));
                     if(ImagePane.writeType==3)
                         changePlayer(ImagePane.writeName);
                     if(ImagePane.writeType==4)

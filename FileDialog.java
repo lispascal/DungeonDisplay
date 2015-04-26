@@ -124,7 +124,7 @@ public class FileDialog extends javax.swing.JFrame {
         });
 
         jTextPane1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jTextPane1.setText("Supports a large number of rows and columns now. Bear in mind that even 900x900 can load and work easily after about a minute (though, with 1.4GB RAM).");
+        jTextPane1.setText("Supports a large number of rows and columns now. Bear in mind that even 900x900 can load and work after a minute (though with ~1GB RAM, slowly).");
         jScrollPane1.setViewportView(jTextPane1);
 
         jToolBar3.setFloatable(false);
@@ -166,8 +166,8 @@ public class FileDialog extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))

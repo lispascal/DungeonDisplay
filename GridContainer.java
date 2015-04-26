@@ -9,6 +9,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,7 +20,7 @@ public class GridContainer extends JXFPanel
 {
     static boolean pathActive = false;
     static Path path;
-    JXFPanel[] row;
+    List<List<Cell> > cellGrid;
     DisplayPanelCell[][] grid;
     int gridwidth;
     int gridheight;
@@ -73,18 +75,69 @@ public class GridContainer extends JXFPanel
         );
     }
 
+    public void fillArea(int startX, int startY, int endX, int endY) {
 
+        int iinc, jinc; // indicate direction of incrementation
+
+        if (startX <= endX) {
+            iinc = 1;
+        } else {
+            iinc = -1;
+        }
+
+        if (startY <= endY) {
+            jinc = 1;
+        } else {
+            jinc = -1;
+        }
+
+        for(int i = startX; i <= endX; i+= iinc)
+        {
+            for(int j = startY; j <= endY; j += jinc)
+            {
+                if (ImagePane.writeType == 0) {
+                    cellGrid.get(i).get(j).changeTerrain(Integer.parseInt(ImagePane.writeName));
+                }
+                else if (ImagePane.writeType == 1) {
+                    cellGrid.get(i).get(j).changeObject(Integer.parseInt(ImagePane.writeName));
+                }
+                else if (ImagePane.writeType == 2) {
+                    cellGrid.get(i).get(j).changeEffect(Integer.parseInt(ImagePane.writeName));
+                }
+                else if ((startY != j || startX != i) && ImagePane.writeType == 4) {
+                    grid[i][j].changeMob(ImagePane.writeName, i, j, 1);
+                }
+                else if (ImagePane.writeType == 5) {
+                    grid[i][j].changeRoom();
+                }
+
+                grid[i][j].repaint();
+            }
+        }
+        
+    }
+    
     private DisplayPanelCell[][] fillgrid(int x,int y)
     {
         DisplayPanelCell[][] result;  // array for resulting grid
+        cellGrid = new ArrayList<>(x);
         result = new DisplayPanelCell[x][y];
 
          // array for row panels
-        row = new JXFPanel[y];
+        
 
-
+        for(int i=0; i<x; i++)
+        {
+            List<Cell> col = new ArrayList<>(y);
+            for(int j=0; j<y; j++)
+                col.add(new Cell());
+            cellGrid.add(col);
+        }
+        
         for(int i=0;i<y;i++) // iterate through rows, placing a jpanel for
         {                    // a row, then filling that row with cells
+            JXFPanel[] row;
+            row = new JXFPanel[x];
             row[i] = new JXFPanel(2,0,Color.BLACK);
 
             add(row[i]);
@@ -101,11 +154,17 @@ public class GridContainer extends JXFPanel
     @Override
     protected void paintComponent(Graphics g)
     {
-        for(int i=0;i<row.length;i++)
-        {
-            row[i].setPreferredSize(new Dimension((parentDisplayPanel.fullsquaresize)*gridwidth,parentDisplayPanel.fullsquaresize-2));
-            row[i].revalidate();
-            row[i].repaint();
+//        for(int i=0;i<gridwidth;i++)
+//        {
+//            row[i].setPreferredSize(new Dimension((parentDisplayPanel.fullsquaresize)*gridwidth,parentDisplayPanel.fullsquaresize-2));
+//            row[i].revalidate();
+//            row[i].repaint();
+//        }
+        for (DisplayPanelCell[] grid1 : grid) {
+            for (DisplayPanelCell grid11 : grid1) {
+                grid11.revalidate();
+                grid11.repaint();
+            }
         }
         revalidate();
         super.paintComponent(g);
