@@ -116,13 +116,18 @@ public class DisplayPanelCell extends JXFPanel
     }
     
     @Override
+    public Dimension getPreferredSize(){
+        int s = parentGrid.parentDisplayPanel.fullsquaresize;
+        return new Dimension(s, s);
+    }
+    
+    @Override
     protected void paintComponent(Graphics g)
     {
         DungeonDisplay parent = parentGrid.parentDisplayPanel.parentDD;
         DisplayPanel parentDP = parentGrid.parentDisplayPanel;
-        int ss = parentDP.fullsquaresize;
+        int ss = parentDP.fullsquaresize + 2;
         setPreferredSize(new Dimension(ss-2, ss-2));
-        revalidate();
         super.paintComponent(g);
         
         g.drawImage(parent.terrainArray.panels[cell.terrain].image,0,0,
@@ -156,9 +161,10 @@ public class DisplayPanelCell extends JXFPanel
         else if (roomNum > 0 && ImagePane.hide) // if "Hide Square" is on a square, and things 
         {                                   //          aren't hidden, show room numbers
             g.setColor(new Color(167,162,175));
-            g.fillRect(0,0, ss, parentDP.fullsquaresize);
+            g.fillRect(0,0, ss, ss);
         }
         
+        revalidate();
     }
     
     protected void addMouseListener()
