@@ -79,21 +79,21 @@ public class GridContainer extends JXFPanel
 
         int iinc, jinc; // indicate direction of incrementation
 
-        if (startX <= endX) {
-            iinc = 1;
-        } else {
-            iinc = -1;
-        }
-
-        if (startY <= endY) {
-            jinc = 1;
-        } else {
-            jinc = -1;
-        }
-
-        for(int i = startX; i <= endX; i+= iinc)
+        if (startX > endX)
         {
-            for(int j = startY; j <= endY; j += jinc)
+            int temp = startX;
+            startX = endX;
+            endX = temp;
+        }
+        if (startY > endY) {
+            int temp = startY;
+            startY = endY;
+            endY = temp;
+        }
+
+        for(int i = startX; i <= endX; i++)
+        {
+            for(int j = startY; j <= endY; j ++)
             {
                 if (ImagePane.writeType == 0) {
                     cellGrid.get(i).get(j).changeTerrain(Integer.parseInt(ImagePane.writeName));
