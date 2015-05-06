@@ -5,6 +5,7 @@
 package dungeondisplay;
 
 import java.awt.GridLayout;
+import java.awt.event.MouseWheelEvent;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -33,6 +34,11 @@ public class MiscMenu extends javax.swing.JPanel {
     public void changeHideAllButton()
     {
         HideAllRoomsButtonActionPerformed(null);
+    }
+    
+    // zoom 20%. negative rot = zoom in, positive rot = zoom out
+    public void resize(int rot) {
+        resizeSlider.setValue((resizeSlider.getValue() * (10 + (rot > 0 ? -2 : 2))) / 10);
     }
 
     /**
