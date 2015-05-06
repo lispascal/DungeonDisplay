@@ -97,7 +97,7 @@ public class DungeonDisplay extends JFrame implements ActionListener {
     public DungeonDisplay(String windowname,int colnum, int rownum, int resolution)
     {
         super(windowname);
-        displayPanel = new DisplayPanel(resolution, colnum, rownum, this);
+        displayPanel = new DisplayPanel(resolution, colnum, rownum, this, miscMenu);
         JTabbedPane menuPane = new JTabbedPane();
         
         
